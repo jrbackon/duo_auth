@@ -16,15 +16,20 @@ def auth_add(source):
     with open(source, 'r') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter = ',')
         for row in csv_reader:
-                if row[1] in user_dict('C:/Users/jbackon/Repos/duo_auth/trash-users-2022-10-20.csv'):
-                    users[row[1]] += row[2] + ", " + row[0] + ', '
-                    print(users[row[1]])
+                if row[1] in users:
+                    if row[2] in users[row[1]]:
+                        pass
+                    else:
+                        users[row[1]] += row[2] + ', '
+                
     
-    with open('auth_log.csv', mode = 'w') as auth_file:
-        auth_log = csv.writer(auth_file, delimiter = ',')
-        for user in users:
-            auth_log.writerow(user)
-            print(user)
+    with open('auth_log.txt', 'w') as auth_file:
+        auth_file.write('username, systems accessed \n')
+        for i, d in users.items():
+            if users[i] != '':
+                auth_file.write(str(i) + ', ' + str(d)[:-2] + '\n')
+            else:
+                pass
     return NULL
 
 # print out dictionary as .csv file
